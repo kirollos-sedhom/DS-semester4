@@ -21,7 +21,15 @@ void Program::run() {
 	cout << "\n\t\t\t      ---------Hello to sarah program----------\n " << endl;
 	cout << "\t\t_______________________________________________________________\n" << endl;
 	cout << "\t\t**please press 1 for register , 2 for login and 3 for Exit ** :    " ;
-	cin >> choose;
+	int x = 0;
+	while (!(cin >> x)) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Invalid input.  Try again: ";
+	}
+
+	//
+	choose = x;
 	if (choose == 1) {
 		reg();
 	}
@@ -113,7 +121,18 @@ void Program::reg() {
 	int choose;
 	cout << "\t\t**press 1 for reg again , 2 for login and 3 for Exit ** :" << endl;
 	cout << "\t\t";
-	cin >> choose;
+	// new
+
+
+	int x = 0;
+	while (!(cin >> x)) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Invalid input.  Try again: ";
+	}
+
+	//
+	choose = x;
 	if (choose == 1) {
 		reg();
 	}
@@ -189,7 +208,7 @@ void Program::programcontent() {
 	cout << "\t\tpress 4 for search about contact in my contacts(report NOT FOUND if he doesn’t exist).\n ";
 	cout << "\t\tpress 5 for view all contacts of specific user.\n ";
 	cout << "\t\tpress 6 for view all the sent messages from latest to oldest.\n ";
-	cout << "\t\tpress 7 for view all the received messages from specific contact.\n ";
+	cout << "\t\tpress 7 for view all the received messages.\n ";
 	cout << "\t\tpress 8 for put a message in favorites.\n ";
 	cout << "\t\tpress 9 for remove the oldest message from favorites.\n ";
 	cout << "\t\tpress 10 for view all favorites messages\n ";
@@ -323,6 +342,7 @@ void Program::readdata() {
 		geek >> us.userid;
 		line = line.substr(pos + 1);
 		us.setuserpass(line);
+		// us.readfromfile();
 		users.push_back(us);
 		f.clear();
 		f.close();
@@ -493,7 +513,7 @@ void Program::sendmessage()
 	//test
 	//cout << " confirming sending message : \" " << messageToBeSent << "\" \n";
 	Message newmessage = Message(messageToBeSent, useridnow, recieverid);
-	this->sentmessages.push_back(newmessage);
+	usernow->sentmessages.push_back(newmessage);
 	
 	for (int i = 0; i < users.size(); i++)
 	{
@@ -613,7 +633,7 @@ void Program::searchaboutcontact()
 void Program::viewmessagesihavesent()
 {
 
-	list<Message> reversedsentmessages = sentmessages;
+	list<Message> reversedsentmessages = usernow->sentmessages;
 	reversedsentmessages.reverse();
 	for (auto const& i : reversedsentmessages) {
 		cout << i.content << " ---sent to user: " << i.recieverID << " " << i.date_string << " " << i.time_string << endl;
@@ -640,8 +660,9 @@ void Program::viewallcontacts()
 }
 void Program::viewallmyrecievedmessages()
 {
-
-	for (int i = 0; i < users.size(); i++)
+	
+	/*
+		for (int i = 0; i < users.size(); i++)
 	{
 		
 
@@ -661,6 +682,23 @@ void Program::viewallmyrecievedmessages()
 		}
 
 	}
+	*/
+	list<Message> reversedmessages = usernow->recivedmessages;
+	reversedmessages.reverse();
+	if (usernow->recivedmessages.empty())
+	{
+		cout << "empty messages :C\n";
+	}
+	else
+	{
+		for (auto i : reversedmessages)
+		{
+			cout << i.content << " ---recieved from user: " << i.senderID << " " << i.date_string << " " << i.time_string << endl;
+		}
+	}
+	
+
+
 }
 
 void Program::addtofavourites()

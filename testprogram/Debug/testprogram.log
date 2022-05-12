@@ -1,24 +1,23 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(519,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (testprogram.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Program.cpp
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(37,3): warning C4551: function call missing argument list
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(37,9): warning C4551: function call missing argument list
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(50,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(54,21): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(127,3): warning C4551: function call missing argument list
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(127,9): warning C4551: function call missing argument list
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(145,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(257,4): warning C4551: function call missing argument list
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(269,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(277,21): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(373,21): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(394,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(427,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(430,22): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(498,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(597,21): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(600,22): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(628,22): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(644,20): warning C4018: '<': signed/unsigned mismatch
-F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\testprogram\Program.cpp(689,20): warning C4018: '<': signed/unsigned mismatch
-  testprogram.vcxproj -> F:\repos\saraha-project-final\sraha-project\testprogram - Copy\testprogram - Copy\Debug\DataStructure.exe
+F:\repos new\saraha\testprogram\Program.cpp(45,3): warning C4551: function call missing argument list
+F:\repos new\saraha\testprogram\Program.cpp(45,9): warning C4551: function call missing argument list
+F:\repos new\saraha\testprogram\Program.cpp(58,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+F:\repos new\saraha\testprogram\Program.cpp(62,21): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(97,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(146,3): warning C4551: function call missing argument list
+F:\repos new\saraha\testprogram\Program.cpp(146,9): warning C4551: function call missing argument list
+F:\repos new\saraha\testprogram\Program.cpp(164,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(276,4): warning C4551: function call missing argument list
+F:\repos new\saraha\testprogram\Program.cpp(288,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(296,21): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(393,21): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(414,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(447,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(450,22): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(518,20): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(617,21): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(620,22): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(648,22): warning C4018: '<': signed/unsigned mismatch
+F:\repos new\saraha\testprogram\Program.cpp(727,20): warning C4018: '<': signed/unsigned mismatch
+  testprogram.vcxproj -> F:\repos new\saraha\Debug\DataStructure.exe

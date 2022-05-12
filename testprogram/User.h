@@ -33,5 +33,5 @@ public:
 	User();
 	string getuserpass();
 	void setuserpass(string pass);
-
+	void readfromfile();
 };
