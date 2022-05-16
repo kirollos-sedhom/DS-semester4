@@ -169,7 +169,7 @@ void Program::login() {
 			found = true;
 			usernamenow = users[i].username;
 			useridnow = users[i].userid;
-			// replacement for the above code
+
 			usernow = &users[i];
 			break;
 
@@ -212,7 +212,8 @@ void Program::programcontent() {
 	cout << "\t\tpress 8 for put a message in favorites.\n ";
 	cout << "\t\tpress 9 for remove the oldest message from favorites.\n ";
 	cout << "\t\tpress 10 for view all favorites messages\n ";
-	cout << "\t\tpress 11 for logout\n ";
+	cout << "\t\tpress 11 for to view messages from a cerain contact\n ";
+	cout << "\t\tpress 12 to logout\n ";
 
 	int c;
 	cin >> c;
@@ -260,6 +261,10 @@ void Program::programcontent() {
 		programcontent();
 		break;
 	case 11:
+		viewMessageFromaCertainContact();
+		programcontent();
+		break;
+	case 12:
 		run();
 		break;
 	default:
@@ -342,7 +347,8 @@ void Program::readdata() {
 		geek >> us.userid;
 		line = line.substr(pos + 1);
 		us.setuserpass(line);
-		// us.readfromfile();
+		/////////////////////////////////////// check here
+		us.readfromfile();
 		users.push_back(us);
 		f.clear();
 		f.close();
@@ -358,6 +364,8 @@ void Program::readdata() {
 
 		}
 		f.close();
+
+
 
 
 	}
@@ -476,13 +484,15 @@ void Program::sendmessage()
 	while (found == false)
 	{
 		cout << "enter reciever id: \n";
-		//cin >> recieverid;
+
 
 		int x = 0;
 		while (!(cin >> x)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "Invalid input.  Try again: ";
+			cout << "Invalid input. please try again: ";
+
+		
 		}
 
 
@@ -494,14 +504,13 @@ void Program::sendmessage()
 			{
 				found = true;
 			}
-		}
+		}		
 		recieverid = x;
 		
 	}
 	
 
-	
-	//this->reciepientIDs.push(recieverid);
+
 	reciepientIDs.push_back(recieverid);
 	id_Of_Last_Recipient = recieverid;
 	this->reciepientIDs.pop_back();
@@ -510,8 +519,7 @@ void Program::sendmessage()
 	cin >> ws;
 	getline(cin, messageToBeSent);
 
-	//test
-	//cout << " confirming sending message : \" " << messageToBeSent << "\" \n";
+
 	Message newmessage = Message(messageToBeSent, useridnow, recieverid);
 	usernow->sentmessages.push_back(newmessage);
 	
@@ -525,31 +533,26 @@ void Program::sendmessage()
 			users[i].recivedmessages.push_back(newmessage);
 
 			this->reciepientIDs.push_back(recieverid);
-			// testing
-			//cout << "recipient IDs now contain:\n";
-			//checkRecipients();
+
 		}
 
 
 	}
 		
 /////// file addition
-	//string id = s;
-	//id_Of_Last_Recipient = s;
+
 	string fname = "usersmessages/" +to_string(recieverid) + "recieved" + ".txt";
-	//   string fname = s + "recieved" + ".txt";
 	ofstream filei;
 	filei.open(fname, ios::out | ios::app);
-
-	//    fname = usn + ".txt";
 
 	if (!filei.is_open() && filei.fail())
 	{
 		cout << "\nerror sending message!\n";
 		filei.close();
 	}
-	string finalmessagecontent = newmessage.content + "\n";
-	filei << finalmessagecontent;
+
+	filei << newmessage.content << "," << newmessage.senderID << "," << newmessage.recieverID << "," << newmessage.date_string << "," << newmessage.time_string << endl;
+
 	cout << "message sent successfully!\n";
 	filei.close();
 
@@ -561,47 +564,47 @@ void Program::sendmessage()
 		cout << "\nerror sending message!\n";
 		filei.close();
 	}
-
-	filei << finalmessagecontent;
+	
+	filei << newmessage.content << "," <<newmessage.senderID<<","<< newmessage.recieverID<<","<<newmessage.date_string<<","<<newmessage.time_string<<endl;
 	filei.close();
 }
 void Program::undosentmessage()
 {
-	//usernow->sentmessages.pop_back();
+	int tempid;
+	string fname;
+	for (int i = 0; i < users.size(); i++)
+	{
+		if (users[i].userid == usernow->userid)
+		{ 
+			tempid = users[i].sentmessages.back().recieverID;
+			users[i].sentmessages.pop_back();
+			break;
+		}
+	}
+	for (int i = 0; i < users.size(); i++)
+	{
+		if (users[i].userid == tempid)
+		{
+	
+			users[i].recivedmessages.pop_back();
+			fname = "usersmessages/" + to_string(users[i].userid) + "recieved" + ".txt";
+			break;
+		}
+	}
+
+
+	
+	
+	
 	string path = "usersmessages/" + to_string(usernow->userid)  + "sent" + ".txt";
-	//string path = "usersmessages/" + usernow->userid + "sent" + ".txt";
-	string fname = "usersmessages/" + to_string(id_Of_Last_Recipient) + "recieved" + ".txt";
+	
 	list<string> mymessages = returnmessages(path);
 	list<string> yourmessages = returnmessages(fname);
 	mymessages.pop_back();
 	yourmessages.pop_back();
 	writetofile(mymessages, path);
 	writetofile(yourmessages, fname);
-
 	
-	// under testing
-	/*
-	* 			for (auto i : usernow->mycontact)
-	{
-		if (i.userid == reciepientIDs.back())
-		{
-			//cout << "found the user to pop his messages"<<endl;
-			//i.recievedmessages.pop_back();
-			i.recivedmessages.pop_back();
-			//cout << "message popped" << endl;
-			this->reciepientIDs.pop_back();
-
-		}
-	}
-	*/
-	
-
-
-	
-
-
-
-
 	
 }
 void Program::searchaboutcontact()
@@ -705,34 +708,65 @@ void Program::addtofavourites()
 {
 	vector<Message> messagesPlaceholder;
 	int i = 0;
-	// currently using sentmessages , but will switch to recieved messages
+	int tempnumber;
 
 	for (auto temp : usernow->recivedmessages)
 	{
 
 		messagesPlaceholder.push_back(temp);
-
+		// edit here
 		cout << (i + 1) << "- " << temp.content << endl;
 		i++;
 
 	}
 
-
-	cout << "type the number of your favourited message :D\n";
-	int tempnumber;
-	cin >> tempnumber;
-
-	
-
-	for (int i = 0; i < users.size(); i++)
+	if (usernow->recivedmessages.empty())
 	{
-		if (users[i].userid == useridnow)
+		cout << "but... your messages are empty !";
+	}
+	else
+	{
+		cout << "type the number of your favourited message :D\n";
+
+		cin >> tempnumber;
+
+
+
+		for (int i = 0; i < users.size(); i++)
 		{
-			users[i].myfavouritmessages.push_back(messagesPlaceholder[(tempnumber - 1)]);
-			
+			if (users[i].userid == useridnow)
+			{
+				users[i].myfavouritmessages.push_back(messagesPlaceholder[(tempnumber - 1)]);
+
+			}
+
 		}
 
+		/////// file addition
+
+		string fname = "favouritemessages/" + to_string(usernow->userid) + ".txt";
+		ofstream filei;
+		filei.open(fname, ios::out | ios::app);
+
+		if (!filei.is_open() && filei.fail())
+		{
+			cout << "\nerror saving message to favourites!\n";
+			filei.close();
+		}
+
+		filei << messagesPlaceholder[(tempnumber - 1)].content << "," << messagesPlaceholder[(tempnumber - 1)].senderID << "," << messagesPlaceholder[(tempnumber - 1)].recieverID << "," << messagesPlaceholder[(tempnumber - 1)].date_string <<  endl;
+
+		cout << "message added to favourites successfully!\n";
+		filei.close();
+
+
+
+
 	}
+
+
+
+	
 }
 void Program::viewfavourites()
 {
@@ -752,7 +786,7 @@ void Program::viewfavourites()
 	*/
 	for (auto i : usernow->myfavouritmessages)
 	{
-		cout << i.content<<"   " << i.date_string << " " << i.time_string << endl;
+		cout << i.content << " ---recieved from user: " << i.senderID << " " << i.date_string << " " << i.time_string << endl;
 	}
 	
 	
@@ -760,17 +794,22 @@ void Program::viewfavourites()
 }
 void Program::popoldestFavourite()
 {
-	/*
-		for (int i = 0; i < users.size(); i++)
-	{
-		if (users[i].userid == useridnow)
-		{
-			users[i].myfavouritmessages.pop_front();
-		}
 
-	}
-	*/
+	string favouriteMessagesPath = "favouritemessages/" + to_string(usernow->userid) + ".txt";
 	usernow->myfavouritmessages.pop_front();
+	//string path = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
+		ofstream newfile;
+	newfile.open(favouriteMessagesPath, ios::out);
+	if (newfile.is_open())
+	{
+		/* code */
+		for (auto const& i : usernow->myfavouritmessages)
+		{
+			newfile << i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
+			//newfile << i.content;
+		}
+		newfile.close();
+	}
 
 
 }
@@ -825,4 +864,40 @@ void Program::writetofile(list<string> mylist, string filepath)
 		}
 		newfile.close();
 	}
+}
+
+void Program::viewMessageFromaCertainContact()
+{
+	cout << "Please enter the user ID:-\n";
+	int tempid;
+	cin >> tempid;
+	for (Message i : usernow->recivedmessages)
+	{
+		if (i.senderID == tempid)
+		{
+			cout<< i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
+		}
+	}
+}
+void Program::del_line(const string file_name, int n)
+{
+	ifstream fin(file_name);
+	ofstream fout;
+	fout.open("temp.txt", ios::out);
+
+	char ch;
+	int line = 1;
+	while (fin.get(ch))
+	{
+		if (ch == '\n')
+			line++;
+
+		if (line != n)      // content not to be deleted 
+			fout << ch;
+	}
+	fout.close();
+	fin.close();
+	char* c = strcpy(new char[file_name.length() + 2], file_name.c_str());
+	remove(c);
+	rename("temp.txt", c);
 }

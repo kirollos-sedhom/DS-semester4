@@ -8,13 +8,13 @@ class Message
 {
 
 
-	///new implementation
+
 public:
 	int messageid;
 	string content;
 	int senderID;
 	int recieverID;
-	//int messageCount = 0;
+
 
 	//date
 	time_t curr_time;

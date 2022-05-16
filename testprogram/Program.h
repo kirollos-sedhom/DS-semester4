@@ -36,6 +36,7 @@ public:
 	void undosentmessage();
 	void searchaboutcontact();
 	void viewallmyrecievedmessages();
+	void viewMessageFromaCertainContact();
 	void viewmessagesihavesent();
 	void viewallcontacts();
 	void addtofavourites();
@@ -44,5 +45,5 @@ public:
 	void checkRecipients();
 	void writetofile(list<string> mylist, string filepath);
 	list<string> returnmessages(string filepath);
-	
+	void del_line(const string filename, int linenumber);
 };
