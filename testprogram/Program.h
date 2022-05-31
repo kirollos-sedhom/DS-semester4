@@ -14,10 +14,10 @@ class Program
 public:
 	vector<User>users;
 	User* usernow;
-	list<Message> sentmessages;
-	list<int> reciepientIDs;
-	int id_Of_Last_Recipient;
-	//list<Message> favourites;
+//	list<Message> sentmessages;
+//	list<int> reciepientIDs;
+//	int id_Of_Last_Recipient;
+
 	void readdata();
 	Program();
 	~Program();
@@ -31,7 +31,6 @@ public:
 	void search();
 	bool alreadyadded(User n);
 
-	/// shotar functions
 	void sendmessage();
 	void undosentmessage();
 	void searchaboutcontact();
@@ -42,8 +41,9 @@ public:
 	void addtofavourites();
 	void viewfavourites();
 	void popoldestFavourite();
-	void checkRecipients();
+//	void checkRecipients();
 	void writetofile(list<string> mylist, string filepath);
+	void viewContactsOfSpecificUser();
+	vector<Message> fetch(string mypath);
 	list<string> returnmessages(string filepath);
-	void del_line(const string filename, int linenumber);
 };

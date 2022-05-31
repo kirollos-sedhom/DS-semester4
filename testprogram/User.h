@@ -18,10 +18,11 @@ private:
 public:
 	string username;
 	int userid;
-
+	int ActiveSession = 0;
 	list<Message>sentmessages;
 	list<Message>recivedmessages;
 	list<Message>myfavouritmessages;
+//	list<int>recipientIds;
 	vector< User>mycontact;
 
 
@@ -34,4 +35,5 @@ public:
 	string getuserpass();
 	void setuserpass(string pass);
 	void readfromfile();
+	void goodmorning();
 };

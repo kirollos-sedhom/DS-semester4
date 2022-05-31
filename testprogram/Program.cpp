@@ -1,52 +1,54 @@
+#define NOMINMAX
 #include "Program.h"
-#include<stack>
 # include<string>
 # include "User.h"
-# include<Stack>
 # include <cstdlib>
 # include <ctime>
 # include <fstream>
 #include<sstream>
 #include<stdio.h>
 #include<stdlib.h>
-#include <string>
-
+#include <windows.h>
 using namespace std;
+
+
 string usernamenow;
+HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 int useridnow;
 
 
 void Program::run() {
-	int choose;
-	cout << "\n\t\t\t      ---------Hello to sarah program----------\n " << endl;
+	int choose = 0;
+	SetConsoleTextAttribute(h, 5);
+	cout << "\n\t\t\t      ---------Hello to saraha program----------\n " << endl;
+	SetConsoleTextAttribute(h, 15);
+
 	cout << "\t\t_______________________________________________________________\n" << endl;
-	cout << "\t\t**please press 1 for register , 2 for login and 3 for Exit ** :    " ;
-	int x = 0;
-	while (!(cin >> x)) {
+	cout << "\t\t**please press 1 for register , 2 for login and 3 for Exit ** :    ";
+
+	while (!(cin >> choose)) {
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Invalid input.  Try again: ";
+		printf("\x1B[31m\t\tInvalid input.  Try again:\033[0m\t\t");
 	}
-
-	//
-	choose = x;
 	if (choose == 1) {
 		reg();
 	}
 	else if (choose == 2) {
 		login();
-
-
 	}
 	else if (choose == 3)
 	{
-		cout << "\n\t\t\t  Thanks For Using Saraha ^_^ ... " << endl;;
+		SetConsoleTextAttribute(h, 10);
+		cout << "\n\t\t\t  Thanks For Using Saraha ^_^ ... " << endl;
+		SetConsoleTextAttribute(h, 15);
 		cout << "\t\t\t\tEXIt PROGRAM ";
-		exit;	exit;
-
+		exit;
 	}
 	else {
+		SetConsoleTextAttribute(h, 12);
 		cout << "\t\twrong choose !!!!!  please try again " << endl;
+		SetConsoleTextAttribute(h, 15);
 		run();
 	}
 }
@@ -67,17 +69,12 @@ int Program::chooseid() {
 				alreadyexists = true;
 				break;
 			}
-
-
-
 		}
 
 		if (alreadyexists == false) {
 			return randid;
 			break;
 		}
-
-
 	}
 
 }
@@ -86,19 +83,23 @@ void Program::reg() {
 	User s;
 	cout << "\t\t----- enter your username please----- : " << endl;
 	cout << "\t\t";
-	std::cin >> std::ws;
+	cin >> ws;
 	getline(cin, s.username);
+	SetConsoleTextAttribute(h, 10);
 	cout << "\t\t!!!!!!! wow it is a beautiful  name  ^_^ : " << endl;
+	SetConsoleTextAttribute(h, 15);
 	cout << "\t\t-----please enter a sutiable password----- : " << endl;
 	cout << "\t\t";
-	std::cin >> std::ws;
+	cin >> ws;
 	getline(cin, pass);
 	s.setuserpass(pass);
 	for (int i = 0; i < users.size(); i++) {
 		int k = users[i].username.compare(s.username);
 		int j = users[i].getuserpass().compare(s.getuserpass());
 		if (j == 0 && k == 0) {
+			SetConsoleTextAttribute(h, 5);
 			cout << "\t\t** you are already have an account on saraha** " << endl;
+			SetConsoleTextAttribute(h, 15);
 			cout << " \t\t\t\t///please login/// : " << endl;
 			cout << "\t\t_______________________________________________" << endl;
 			login();
@@ -110,28 +111,28 @@ void Program::reg() {
 		}
 
 	}
-
-
 	cout << "\t\t-----now we will choose for you  an id----- : " << endl;
 	s.userid = chooseid();
+	SetConsoleTextAttribute(h, 14);
 	cout << "\t\tyour id now is : " << s.userid << endl;
+	SetConsoleTextAttribute(h, 15);
 	users.push_back(s);
+	sort(users.begin(), users.end(), [](const auto& a, const auto& b) { return a.userid < b.userid; });
 	cout << "\t\t^^^^^^^ Congratulations you now have account on sarah please login^^^^^^^ :" << endl;
 	cout << "______________________________________________________________________________" << endl;
 	int choose;
 	cout << "\t\t**press 1 for reg again , 2 for login and 3 for Exit ** :" << endl;
 	cout << "\t\t";
-	// new
-
 
 	int x = 0;
 	while (!(cin >> x)) {
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		SetConsoleTextAttribute(h, 12);
 		cout << "Invalid input.  Try again: ";
+		SetConsoleTextAttribute(h, 15);
 	}
 
-	//
 	choose = x;
 	if (choose == 1) {
 		reg();
@@ -141,9 +142,11 @@ void Program::reg() {
 	}
 	else if (choose == 3)
 	{
-		cout << "\n\t\t\t  Thanks For Using Saraha ^_^ ... " << endl;;
+		SetConsoleTextAttribute(h, 10);
+		cout << "\n\t\t\t  Thanks For Using Saraha ^_^ ... " << endl;
+		SetConsoleTextAttribute(h, 15);
 		cout << "\t\t\t\tEXIt PROGRAM ";
-		exit;	exit;
+		exit;
 
 	}
 
@@ -160,6 +163,7 @@ void Program::login() {
 	std::cin >> std::ws;
 	getline(cin, pass);
 	s.setuserpass(pass);
+
 	bool found = false;
 	for (int i = 0; i < users.size(); i++) {
 		int k = users[i].username.compare(s.username);
@@ -171,34 +175,44 @@ void Program::login() {
 			useridnow = users[i].userid;
 
 			usernow = &users[i];
+
 			break;
 
 		}
 
 	}
 	if (found == true) {
+		SetConsoleTextAttribute(h, 10);
 		cout << "\t\t //////  you successfully login /////// " << endl;
+		SetConsoleTextAttribute(h, 15);
 		cout << "\t\t_________________________________________" << endl;
 		programcontent();
 	}
 	else {
+		SetConsoleTextAttribute(h, 12);
 		cout << "\t\t Something's wrong!" << endl;
-		cout << "\t\t To try again press 1 , to Register press 2\n\n";
+		SetConsoleTextAttribute(h, 15);
+		cout << "\t\t To try again press 1 , to Register press any number \n\n";
 		int myinput = 0;
-		while (myinput == 0)
+
+		while (!(cin >> myinput)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			SetConsoleTextAttribute(h, 12);
+			cout << "\t\tInvalid input.  Try again: ";
+			SetConsoleTextAttribute(h, 15);
+		}
+		if (myinput == 1)
 		{
-			cin >> myinput;
-			if (myinput == 1)
-			{
-				login();
-			}
-			else
-			{
-				reg();
-			}
+			login();
+		}
+		else
+		{
+			reg();
 		}
 
 	}
+
 }
 void Program::programcontent() {
 	cout << "\n\n\n\t\t\t\t modified app \n\n\n";
@@ -206,14 +220,15 @@ void Program::programcontent() {
 	cout << "\t\tpress 2 for send a message to a contact.\n ";
 	cout << "\t\tpress 3 for undo the last sent message.\n ";
 	cout << "\t\tpress 4 for search about contact in my contacts(report NOT FOUND if he doesn’t exist).\n ";
-	cout << "\t\tpress 5 for view all contacts of specific user.\n ";
+	cout << "\t\tpress 5 for view your contacts.\n ";
 	cout << "\t\tpress 6 for view all the sent messages from latest to oldest.\n ";
 	cout << "\t\tpress 7 for view all the received messages.\n ";
 	cout << "\t\tpress 8 for put a message in favorites.\n ";
 	cout << "\t\tpress 9 for remove the oldest message from favorites.\n ";
 	cout << "\t\tpress 10 for view all favorites messages\n ";
 	cout << "\t\tpress 11 for to view messages from a cerain contact\n ";
-	cout << "\t\tpress 12 to logout\n ";
+	cout << "\t\tpress 12 for to view the contacts of a specific user\n ";
+	cout << "\t\tpress 13 to logout\n ";
 
 	int c;
 	cin >> c;
@@ -257,7 +272,6 @@ void Program::programcontent() {
 		break;
 	case 10:
 		viewfavourites();
-	
 		programcontent();
 		break;
 	case 11:
@@ -265,18 +279,26 @@ void Program::programcontent() {
 		programcontent();
 		break;
 	case 12:
+		viewContactsOfSpecificUser();
+		programcontent();
+		break;
+	case 13:
 		run();
 		break;
 	default:
 		int choice;
+		SetConsoleTextAttribute(h, 14);
 		cout << "\t\t--- if you want to use program  again press 1 and if you want to exit press 2 --- :" << endl;
+		SetConsoleTextAttribute(h, 15);
 		cout << "\t\t";
 		cin >> choice;
 		if (choice == 1) {
 			programcontent();
 		}
 		else if (choice == 2) {
-			cout << "\t\tThanks For Using Saraha ^_^ ... " << endl;;
+			SetConsoleTextAttribute(h, 10);
+			cout << "\t\tThanks For Using Saraha ^_^ ... " << endl;
+			SetConsoleTextAttribute(h, 15);
 			cout << "\t\t\tEXIt PROGRAM ";
 			exit;
 		}
@@ -294,7 +316,6 @@ Program::~Program() {
 		stringstream convert;
 		convert << i;
 		convert >> fname;
-
 		file_obj.open("data/user" + fname + "info " + ".txt", ios::app);
 		file_obj << users[i].username << "," << users[i].userid << "," << users[i].getuserpass() << endl;
 		file_obj.close();
@@ -308,23 +329,20 @@ Program::~Program() {
 
 	}
 
-
 }
 Program::Program() {
 
 }
 void Program::readdata() {
-	ifstream f;
-	ofstream ofs;
+	ifstream file;
+	ofstream outputfile;
 	string size;
-	f.open("sizeOfusers.txt");
-	getline(f, size);
+	file.open("sizeOfusers.txt");
+	getline(file, size);
 	int k = stoi(size);
-	f.close();
-	if (stoi(size) != 0) {
-		ofs.open("sizeOfusers.txt", std::ofstream::out | std::ofstream::trunc);
-		ofs.close();
-	}
+	file.close();
+	outputfile.open("sizeOfusers.txt", std::ofstream::out | std::ofstream::trunc);
+	outputfile.close();
 
 	string fname;
 	string line;
@@ -335,8 +353,8 @@ void Program::readdata() {
 		stringstream convert;
 		convert << i;
 		convert >> fname;
-		f.open("data/user" + fname + "info " + ".txt");
-		getline(f, line);
+		file.open("data/user" + fname + "info " + ".txt");
+		getline(file, line);
 		pos = line.find(",");
 		string mycut = line.substr(0, pos);
 		us.username = mycut;
@@ -347,13 +365,16 @@ void Program::readdata() {
 		geek >> us.userid;
 		line = line.substr(pos + 1);
 		us.setuserpass(line);
-		/////////////////////////////////////// check here
+		// was here
 		us.readfromfile();
+
 		users.push_back(us);
-		f.clear();
-		f.close();
-		f.open("data/user" + fname + "mycontacts " + ".txt");
-		while (getline(f, line)) {
+
+
+		file.clear();
+		file.close();
+		file.open("data/user" + fname + "mycontacts " + ".txt");
+		while (getline(file, line)) {
 			pos = line.find("|");
 			mycut = line.substr(0, pos);
 			uc.username = mycut;
@@ -363,101 +384,136 @@ void Program::readdata() {
 			users[i].mycontact.push_back(uc);
 
 		}
-		f.close();
-
-
-
+		file.close();
 
 	}
 	for (int i = 0; i < stoi(size); i++) {
 		stringstream converti;
 		converti << i;
 		converti >> fname;
-		ofs.open("data/user" + fname + "info " + ".txt", std::ofstream::out | std::ofstream::trunc);
-		ofs.close();
-		ofs.open("data/user" + fname + "mycontacts " + ".txt", std::ofstream::out | std::ofstream::trunc);
-		ofs.close();
+		outputfile.open("data/user" + fname + "info " + ".txt", std::ofstream::out | std::ofstream::trunc);
+		outputfile.close();
+		outputfile.open("data/user" + fname + "mycontacts " + ".txt", std::ofstream::out | std::ofstream::trunc);
+		outputfile.close();
 	}
 }
 void  Program::addtoyourcontact(User n) {
-	int hi;
-	bool l = alreadyadded(n);
-	if (l == true) {
-		cout << " _you add this contact before_ : " << endl;
+	int check = 0;
+	bool isAdded = alreadyadded(n);
+	if (isAdded == true) {
+		SetConsoleTextAttribute(h, 5);
+		cout << " _you added this contact before_ : " << endl;
+		SetConsoleTextAttribute(h, 15);
 		cout << " press 1 to back to home and 2 for add another contact : " << endl;
-		cin >> hi;
-		if (hi == 1) {
+		while (!(cin >> check)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			SetConsoleTextAttribute(h, 12);
+			cout << "\t\tInvalid input.  Try again: ";
+			SetConsoleTextAttribute(h, 15);
+		}
+		if (check == 1) {
 			programcontent();
 
 		}
-		else if (hi == 2) {
+		else if (check == 2) {
 			search();
 
 
 		}
 
 	}
-	else if (l == false) {
-		for (int j = 0; j < users.size(); j++) {
-			int l = users[j].username.compare(usernamenow);
-			if (l == 0 && users[j].userid == useridnow) {
-				users[j].mycontact.push_back(n);
-				cout << "contact is added" << endl;
-				break;
+	else if (isAdded == false) {
+		int start = 0;
+		int end = users.size() - 1;
 
+
+		for (int i = 0; i < users.size(); i++) {
+			int middle = (end - start) / 2;
+			if (users[i].userid == useridnow) {
+				users[i].mycontact.push_back(n);
+				SetConsoleTextAttribute(h, 10);
+				cout << " ***contact is added*** " << endl;
+				SetConsoleTextAttribute(h, 15);
+				break;
+			}
+			else if (users[middle].userid > useridnow) {
+				end = middle - 1;
+			}
+			else {
+				start = middle + 1;
 			}
 		}
 	}
 
 }
 void Program::search() {
-	string name;
-	string choose;
-	int choose1;
-	bool found;
-	found = false;
-	cout << "**enter the user name of contect you want to add** : " << endl;
-	std::cin >> std::ws;
-	getline(cin, name);
+
+	int start = 0;
+	int end = users.size() - 1;
+	int id;
+	cout << "enter id of user you want to add : " << endl;
+	int myinput = 0;
+
+	while (!(cin >> myinput)) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		SetConsoleTextAttribute(h, 12);
+		cout << "\t\tInvalid input.  Try again: ";
+		SetConsoleTextAttribute(h, 15);
+	}
+	id = myinput;
+
+	User us;
+	bool found = false;
+
 	for (int i = 0; i < users.size(); i++) {
-		int k = users[i].username.compare(name);
-		if (k == 0 && users[i].userid != useridnow) {
-			cout << "is this the contact you want to add : (y/n)" << endl;
-			cout << users[i].username << endl;
-			cout << users[i].userid << endl;
-			cin >> choose;
-			if (choose == "y") {
-				found = true;
-				addtoyourcontact(users[i]);
-				break;
-			}
-			else if (choose == "n") {
-				cout << " it is okay we will search more : " << endl;
-				continue;
-			}
+		int middle = (end - start) / 2;
+		if (users[i].userid == id) {
+			found = true;
+			addtoyourcontact(users[i]);
+			break;
+		}
+		else if (users[middle].userid > id) {
+			end = middle - 1;
+		}
+		else {
+			start = middle + 1;
 		}
 	}
+
 	if (found == false) {
-		cout << "__ No contact of this username ___" << endl;
-		cout << " * enter 1 for another try and 2 for home * : " << endl;
-		cin >> choose1;
-		if (choose1 == 1) {
+		int choose = 0;
+		SetConsoleTextAttribute(h, 8);
+		cout << " ___ No contact of this username ___" << endl;
+		SetConsoleTextAttribute(h, 15);
+		cout << " enter 1 for try again and 2 for go home" << endl;
+
+		while (!(cin >> choose)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			SetConsoleTextAttribute(h, 12);
+			cout << "\t\tInvalid input.  Try again: ";
+			SetConsoleTextAttribute(h, 15);
+		}
+		if (choose == 1) {
 			search();
 		}
-		else if ((choose1 == 2)) {
-			programcontent();
-		}
+
 	}
 
 }
 bool Program::alreadyadded(User n) {
 	bool alreadyadded = false;
-	for (int l = 0; l < users.size(); l++) {
-		int m = users[l].username.compare(usernamenow);
-		if (m == 0 && users[l].userid == useridnow) {
-			for (int k = 0; k < users[l].mycontact.size(); k++) {
-				int test = users[l].mycontact[k].username.compare(n.username);
-				if (test == 0 && users[l].mycontact[k].userid == n.userid) {
+	int start = 0;
+	int end = users.size() - 1;
+
+	for (int i = 0; i < users.size(); i++) {
+		int middle = (end - start) / 2;
+		if (users[i].userid == useridnow) {
+			for (int k = 0; k < users[i].mycontact.size(); k++) {
+
+				if (users[i].mycontact[k].userid == n.userid) {
 
 					alreadyadded = true;
 
@@ -467,9 +523,13 @@ bool Program::alreadyadded(User n) {
 				}
 			}
 
+			break;
+		}
+		else if (users[middle].userid > useridnow) {
+			end = middle - 1;
 		}
 		else {
-			continue;
+			start = middle + 1;
 		}
 	}
 	return alreadyadded;
@@ -479,218 +539,272 @@ bool Program::alreadyadded(User n) {
 void Program::sendmessage()
 {
 	int recieverid;
-	// checking if recipient is a registered user
+	// checking if recipient is a registered user 
+	// using binary search
+
 	bool found = false;
+
+
+
+
+
 	while (found == false)
 	{
-		cout << "enter reciever id: \n";
-
+		cout << "enter reciever ID: \n";
 
 		int x = 0;
 		while (!(cin >> x)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			SetConsoleTextAttribute(h, 12);
 			cout << "Invalid input. please try again: ";
+			SetConsoleTextAttribute(h, 15);
 
-		
+
 		}
 
-
-
-
-		for (auto i : users)
-		{
-			if (i.userid == x)
-			{
-				found = true;
-			}
-		}		
+		int start = 0;
+		int end = users.size() - 1;
 		recieverid = x;
-		
-	}
-	
+		for (int i = 0; i < users.size(); i++) {
+			int middle = (end - start) / 2;
+			if (users[i].userid == recieverid) {
 
+				found = true;
+				string messageToBeSent;
+				SetConsoleTextAttribute(h, 14);
+				cout << "write your message: \n make it supportive and nice :)\n";
+				SetConsoleTextAttribute(h, 15);
+				cin >> ws;
+				getline(cin, messageToBeSent);
 
-	reciepientIDs.push_back(recieverid);
-	id_Of_Last_Recipient = recieverid;
-	this->reciepientIDs.pop_back();
-	string messageToBeSent;
-	cout << "write your message: \n make it supportive and nice :)\n";
-	cin >> ws;
-	getline(cin, messageToBeSent);
+				Message newmessage = Message(messageToBeSent, useridnow, recieverid);
+				newmessage.messageid = chooseid();
+				usernow->sentmessages.push_back(newmessage);
+				usernow->ActiveSession++;
+				users[i].recivedmessages.push_back(newmessage);
+				/////// file addition 
 
+				string fname = "usersmessages/" + to_string(recieverid) + "recieved" + ".txt";
+				ofstream filei;
+				filei.open(fname, ios::out | ios::app);
 
-	Message newmessage = Message(messageToBeSent, useridnow, recieverid);
-	usernow->sentmessages.push_back(newmessage);
-	
-	for (int i = 0; i < users.size(); i++)
-	{
-		
+				if (!filei.is_open() && filei.fail())
+				{
+					SetConsoleTextAttribute(h, 12);
+					cout << "\nerror sending message!\n";
+					SetConsoleTextAttribute(h, 15);
+					filei.close();
+				}
 
-	if (users[i].userid == recieverid)
-		{
-		
-			users[i].recivedmessages.push_back(newmessage);
+				filei << newmessage.content << "," << newmessage.senderID << "," << newmessage.recieverID << "," << newmessage.date_string << "," << newmessage.time_string << endl;
+				SetConsoleTextAttribute(h, 10);
+				cout << "message sent successfully!\n";
+				SetConsoleTextAttribute(h, 15);
+				filei.close();
 
-			this->reciepientIDs.push_back(recieverid);
+				// add to my sent messages 
+				fname = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
+				filei.open(fname, ios::out | ios::app);
+				if (!filei.is_open() && filei.fail())
+				{
+					SetConsoleTextAttribute(h, 12);
+					cout << "\nerror sending message!\n";
+					SetConsoleTextAttribute(h, 15);
+					filei.close();
+				}
 
+				filei << newmessage.content << "," << newmessage.senderID << "," << newmessage.recieverID << "," << newmessage.date_string << "," << newmessage.time_string << endl;
+				filei.close();
+				break;
+			}
+			else if (users[middle].userid > useridnow) {
+				end = middle - 1;
+			}
+			else {
+				start = middle + 1;
+			}
 		}
-
-
-	}
-		
-/////// file addition
-
-	string fname = "usersmessages/" +to_string(recieverid) + "recieved" + ".txt";
-	ofstream filei;
-	filei.open(fname, ios::out | ios::app);
-
-	if (!filei.is_open() && filei.fail())
-	{
-		cout << "\nerror sending message!\n";
-		filei.close();
 	}
 
-	filei << newmessage.content << "," << newmessage.senderID << "," << newmessage.recieverID << "," << newmessage.date_string << "," << newmessage.time_string << endl;
 
-	cout << "message sent successfully!\n";
-	filei.close();
 
-	// add to my sent messages
-	fname = "usersmessages/" +to_string(usernow->userid) + "sent" + ".txt";
-	filei.open(fname, ios::out | ios::app);
-	if (!filei.is_open() && filei.fail())
-	{
-		cout << "\nerror sending message!\n";
-		filei.close();
-	}
-	
-	filei << newmessage.content << "," <<newmessage.senderID<<","<< newmessage.recieverID<<","<<newmessage.date_string<<","<<newmessage.time_string<<endl;
-	filei.close();
+
+
+
 }
 void Program::undosentmessage()
 {
-	int tempid;
-	string fname;
-	for (int i = 0; i < users.size(); i++)
+	if (usernow->ActiveSession == 0)
 	{
-		if (users[i].userid == usernow->userid)
-		{ 
-			tempid = users[i].sentmessages.back().recieverID;
-			users[i].sentmessages.pop_back();
-			break;
-		}
+		SetConsoleTextAttribute(h, 12);
+		cout << "You haven't sent messages during this session Yet";
+		SetConsoleTextAttribute(h, 15);
 	}
-	for (int i = 0; i < users.size(); i++)
+	else
 	{
-		if (users[i].userid == tempid)
+		int tempid;
+		string fname;
+		for (int i = 0; i < users.size(); i++)
 		{
-	
-			users[i].recivedmessages.pop_back();
-			fname = "usersmessages/" + to_string(users[i].userid) + "recieved" + ".txt";
-			break;
+			if (users[i].userid == usernow->userid)
+			{
+				tempid = users[i].sentmessages.back().recieverID;
+				users[i].sentmessages.pop_back();
+				users[i].ActiveSession--;
+				break;
+			}
 		}
+		for (int i = 0; i < users.size(); i++)
+		{
+			if (users[i].userid == tempid)
+			{
+
+				users[i].recivedmessages.pop_back();
+				fname = "usersmessages/" + to_string(users[i].userid) + "recieved" + ".txt";
+				break;
+			}
+		}
+
+		string path = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
+
+		list<string> mymessages = returnmessages(path);
+		list<string> yourmessages = returnmessages(fname);
+		mymessages.pop_back();
+		yourmessages.pop_back();
+		writetofile(mymessages, path);
+		writetofile(yourmessages, fname);
+		SetConsoleTextAttribute(h, 10);
+		cout << "Message undo succesfully ^_^ :" << endl;
+		SetConsoleTextAttribute(h, 15);
+
+
 	}
 
-
-	
-	
-	
-	string path = "usersmessages/" + to_string(usernow->userid)  + "sent" + ".txt";
-	
-	list<string> mymessages = returnmessages(path);
-	list<string> yourmessages = returnmessages(fname);
-	mymessages.pop_back();
-	yourmessages.pop_back();
-	writetofile(mymessages, path);
-	writetofile(yourmessages, fname);
-	
-	
 }
 void Program::searchaboutcontact()
 {
-	int n,f=0;
+	int n, f = 0;
 	cout << "enter the id \n";
 	cin >> n;
 	if (n == useridnow) {
+		SetConsoleTextAttribute(h, 12);
 		cout << "this your id ";
+		SetConsoleTextAttribute(h, 15);
 	}
 	else {
-
-		for (int l = 0; l < users.size(); l++) {
-
-
-			for (int k = 0; k < users[l].mycontact.size(); k++) {
-				if (users[l].mycontact[k].userid == n) { f = 1; }
-				else { f = 0; }
-			}
+		int f = 0;
+		for (auto x : usernow->mycontact) {
+			if (x.userid == n)
+				f = 1;
+			else
+				f = 0;
 		}
-			if (f==1)
-				cout << "user found \n";
-			else 
-				cout << "user not found \n";
-			
-		
+		if (f == 1)
+		{
+			SetConsoleTextAttribute(h, 10);
+			cout << "user found \n";
+			SetConsoleTextAttribute(h, 15);
+		}
+
+		else
+		{
+			SetConsoleTextAttribute(h, 5);
+			cout << "user not found \n";
+			SetConsoleTextAttribute(h, 15);
+		}
+
 	}
 }
 void Program::viewmessagesihavesent()
 {
 
-	list<Message> reversedsentmessages = usernow->sentmessages;
+
+	///////////////////////////////////////////////////////karlo's code
+	list<Message>tempmessages;
+	ifstream mf;
+	ofstream mofs;
+	int mpos;
+	string sentMessagesPath = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
+	string mline;
+
+	mf.open(sentMessagesPath);
+
+	while (getline(mf, mline)) {
+		mpos = mline.find(",");
+		string mycut = mline.substr(0, mpos);
+		string contenttemp = mline.substr(0, mpos);
+		mline = mline.substr(mpos + 1);
+
+
+		int senderIDtemp = stoi(mline);
+
+
+		int mylength = to_string(senderIDtemp).length() + 1;
+		mline = mline.substr(mylength);
+
+		int recieverIDtemp = stoi(mline);
+		mline = mline.substr(mpos);
+		string datestringTemp = mline;
+
+		//	mline = mline.substr(mpos + 1);
+		//	string timestringTemp = mline;
+
+		Message messageTemp = Message(contenttemp, senderIDtemp, recieverIDtemp);
+		string temp = datestringTemp;
+		strncpy(messageTemp.date_string, temp.c_str(), sizeof(messageTemp.date_string));
+		//	messageTemp.date_string[sizeof(messageTemp.date_string) - 1] = 0;
+		//	string temp2 = timestringTemp;
+		//	strncpy(messageTemp.time_string, temp2.c_str(), sizeof(messageTemp.time_string));
+		//	messageTemp.time_string[sizeof(messageTemp.time_string) - 1] = 0;
+			// sentmessagestemp.push_back(messageTemp);
+		tempmessages.push_back(messageTemp);
+		//cout << messageTemp.content << endl;
+	}
+	mf.close();
+	//list<Message> reversedmessages = 
+	tempmessages.reverse();
+	for (auto i : tempmessages)
+	{
+		cout << i.content<<endl;
+	}
+
+	/**list<Message> reversedsentmessages = usernow->sentmessages;
 	reversedsentmessages.reverse();
 	for (auto const& i : reversedsentmessages) {
 		cout << i.content << " ---sent to user: " << i.recieverID << " " << i.date_string << " " << i.time_string << endl;
-	}
+	}**/
+
 }
 void Program::viewallcontacts()
 {
-//	for (int i = 0; i < users.size(); i++) {
-//		int k = users[i].username.compare(usernamenow);
-//		if (k == 0 && users[i].userid == useridnow) {
-	
-			for (int j = 0; j < this->usernow->mycontact.size(); j++) {
-				cout << "contact " << (j + 1) << ":" << endl;
-				cout << usernow->mycontact[j].username << endl;
-				cout << usernow->mycontact[j].userid << endl;
-				cout << "_______________" << endl;
-			}
-//		}
-//		else {
-//			continue;
-//		}
+	if (usernow->mycontact.empty())
+	{
+		SetConsoleTextAttribute(h, 14);
+		cout << "Looks like you don't have friends yet!\n";
+		SetConsoleTextAttribute(h, 15);
+	}
+	else
+	{
+		for (int j = 0; j < this->usernow->mycontact.size(); j++) {
+			cout << "contact " << (j + 1) << ":" << endl;
+			//cout << usernow->mycontact[j].username << endl;  // removed the username because it defeats the point of Saraha's anonymity
+			cout << usernow->mycontact[j].userid << endl;
+			cout << "_______________" << endl;
+		}
+	}
 
-//	}
 }
 void Program::viewallmyrecievedmessages()
 {
-	
-	/*
-		for (int i = 0; i < users.size(); i++)
-	{
-		
-
-		if (users[i].userid == useridnow)
-		{
-
-			if (users[i].recivedmessages.empty())
-			{
-				cout << "empty messages :C";
-			}
-			else
-			{
-				for (auto const& i : users[i].recivedmessages) {
-					cout << i.content << endl;
-				}
-			}
-		}
-
-	}
-	*/
-	list<Message> reversedmessages = usernow->recivedmessages;
+	list<Message>tempmessages;
+	/**list<Message> reversedmessages = usernow->recivedmessages;
 	reversedmessages.reverse();
 	if (usernow->recivedmessages.empty())
 	{
+		SetConsoleTextAttribute(h, 14);
 		cout << "empty messages :C\n";
+		SetConsoleTextAttribute(h, 15);
 	}
 	else
 	{
@@ -698,133 +812,198 @@ void Program::viewallmyrecievedmessages()
 		{
 			cout << i.content << " ---recieved from user: " << i.senderID << " " << i.date_string << " " << i.time_string << endl;
 		}
+	}**/
+	ifstream mf;
+	ofstream mofs;
+	int mpos;
+	string recievedMessagesPath = "usersmessages/" + to_string(usernow->userid) + "recieved" + ".txt";
+	string mline;
+
+	mf.open(recievedMessagesPath);
+
+	while (getline(mf, mline)) {
+		mpos = mline.find(",");
+		string mycut = mline.substr(0, mpos);
+		string contenttemp = mline.substr(0, mpos);
+		mline = mline.substr(mpos + 1);
+
+
+		int senderIDtemp = stoi(mline);
+
+
+		int mylength = to_string(senderIDtemp).length() + 1;
+		mline = mline.substr(mylength);
+
+		int recieverIDtemp = stoi(mline);
+		mline = mline.substr(mpos);
+		string datestringTemp = mline;
+
+		//	mline = mline.substr(mpos + 1);
+		//	string timestringTemp = mline;
+
+		Message messageTemp = Message(contenttemp, senderIDtemp, recieverIDtemp);
+		string temp = datestringTemp;
+		strncpy(messageTemp.date_string, temp.c_str(), sizeof(messageTemp.date_string));
+		//	messageTemp.date_string[sizeof(messageTemp.date_string) - 1] = 0;
+		//	string temp2 = timestringTemp;
+		//	strncpy(messageTemp.time_string, temp2.c_str(), sizeof(messageTemp.time_string));
+		//	messageTemp.time_string[sizeof(messageTemp.time_string) - 1] = 0;
+			// sentmessagestemp.push_back(messageTemp);
+		//cout << messageTemp.content << endl;
+		tempmessages.push_back(messageTemp);
 	}
-	
-
-
+	mf.close();
+	tempmessages.reverse();
+	for (auto i : tempmessages)
+	{
+		cout << i.content<< "--- from user "<<i.senderID << "at time: "<<i.date_string<<endl;
+	}
 }
 
 void Program::addtofavourites()
 {
-	vector<Message> messagesPlaceholder;
+	string sentMessagesPath = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
+	string recievedMessagesPath = "usersmessages/" + to_string(usernow->userid) + "recieved" + ".txt";
+	string favouriteMessagesPath = "favouritemessages/" + to_string(usernow->userid) + ".txt";
+	vector<Message> messagesPlaceholder = fetch(recievedMessagesPath);
+
+	/// <summary>
+	/// /////////////////
+	/// </summary>
+
+
+	
 	int i = 0;
 	int tempnumber;
 
-	for (auto temp : usernow->recivedmessages)
+	for (auto temp : messagesPlaceholder)
 	{
 
-		messagesPlaceholder.push_back(temp);
-		// edit here
+		
+
 		cout << (i + 1) << "- " << temp.content << endl;
 		i++;
 
 	}
 
-	if (usernow->recivedmessages.empty())
+	if (messagesPlaceholder.empty())
 	{
+		SetConsoleTextAttribute(h, 14);
 		cout << "but... your messages are empty !";
+		SetConsoleTextAttribute(h, 15);
 	}
 	else
 	{
 		cout << "type the number of your favourited message :D\n";
 
 		cin >> tempnumber;
-
-
-
-		for (int i = 0; i < users.size(); i++)
+		bool alreadyadded = false;
+		for (auto message : usernow->myfavouritmessages)
 		{
-			if (users[i].userid == useridnow)
+			if (message.messageid == messagesPlaceholder[(tempnumber - 1)].messageid)
 			{
-				users[i].myfavouritmessages.push_back(messagesPlaceholder[(tempnumber - 1)]);
-
+				cout << "this message is already in your favourites!";
+				alreadyadded = true;
 			}
 
 		}
-
-		/////// file addition
-
-		string fname = "favouritemessages/" + to_string(usernow->userid) + ".txt";
-		ofstream filei;
-		filei.open(fname, ios::out | ios::app);
-
-		if (!filei.is_open() && filei.fail())
+		if (alreadyadded == false)
 		{
-			cout << "\nerror saving message to favourites!\n";
+			for (int i = 0; i < users.size(); i++)
+			{
+				if (users[i].userid == useridnow)
+				{
+					users[i].myfavouritmessages.push_back(messagesPlaceholder[(tempnumber - 1)]);
+
+				}
+
+			}
+			/////// file addition
+
+			string fname = "favouritemessages/" + to_string(usernow->userid) + ".txt";
+			ofstream filei;
+			filei.open(fname, ios::out | ios::app);
+
+			if (!filei.is_open() && filei.fail())
+			{
+				SetConsoleTextAttribute(h, 12);
+				cout << "\nerror saving message to favourites!\n";
+				SetConsoleTextAttribute(h, 15);
+				filei.close();
+			}
+
+			filei << messagesPlaceholder[(tempnumber - 1)].content << "," << messagesPlaceholder[(tempnumber - 1)].senderID << "," << messagesPlaceholder[(tempnumber - 1)].recieverID << "," << messagesPlaceholder[(tempnumber - 1)].date_string << endl;
+			SetConsoleTextAttribute(h, 10);
+			cout << "message added to favourites successfully!\n";
+			SetConsoleTextAttribute(h, 15);
 			filei.close();
+
+
 		}
-
-		filei << messagesPlaceholder[(tempnumber - 1)].content << "," << messagesPlaceholder[(tempnumber - 1)].senderID << "," << messagesPlaceholder[(tempnumber - 1)].recieverID << "," << messagesPlaceholder[(tempnumber - 1)].date_string <<  endl;
-
-		cout << "message added to favourites successfully!\n";
-		filei.close();
-
-
-
 
 	}
 
-
-
-	
 }
 void Program::viewfavourites()
 {
-	/*
-	for (int i = 0; i < users.size(); i++)
+	if (usernow->myfavouritmessages.empty())
 	{
-		if (users[i].userid == useridnow)
+		SetConsoleTextAttribute(h, 14);
+		cout << "but... your favourite messages are empty !";
+		SetConsoleTextAttribute(h, 15);
+	}
+	else
+	{
+		for (auto i : usernow->myfavouritmessages)
 		{
-			for (auto i : users[i].myfavouritmessages)
-			{
-				cout << i.content << endl;
-			}
-
+			cout << i.content << " ---recieved from user: " << i.senderID << " " << i.date_string << " " << i.time_string << endl;
 		}
 
 	}
-	*/
-	for (auto i : usernow->myfavouritmessages)
-	{
-		cout << i.content << " ---recieved from user: " << i.senderID << " " << i.date_string << " " << i.time_string << endl;
-	}
-	
-	
-	
+
+
+
 }
 void Program::popoldestFavourite()
 {
-
-	string favouriteMessagesPath = "favouritemessages/" + to_string(usernow->userid) + ".txt";
-	usernow->myfavouritmessages.pop_front();
-	//string path = "usersmessages/" + to_string(usernow->userid) + "sent" + ".txt";
-		ofstream newfile;
-	newfile.open(favouriteMessagesPath, ios::out);
-	if (newfile.is_open())
+	if (usernow->myfavouritmessages.empty())
 	{
-		/* code */
-		for (auto const& i : usernow->myfavouritmessages)
+		SetConsoleTextAttribute(h, 14);
+		cout << "but... your favourite messages are empty !";
+		SetConsoleTextAttribute(h, 15);
+	}
+	else
+	{
+		string favouriteMessagesPath = "favouritemessages/" + to_string(usernow->userid) + ".txt";
+		usernow->myfavouritmessages.pop_front();
+		ofstream newfile;
+		newfile.open(favouriteMessagesPath, ios::out);
+		if (newfile.is_open())
 		{
-			newfile << i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
-			//newfile << i.content;
+			for (auto const& i : usernow->myfavouritmessages)
+			{
+				newfile << i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
+			}
+			newfile.close();
 		}
-		newfile.close();
+
 	}
 
-
 }
-
+/*
 void Program::checkRecipients()
 {
 	list<int> temp = reciepientIDs;
 	while (!temp.empty())
 	{
 		int x = temp.back();
-		cout << x<<endl;
+		cout << x << endl;
 		temp.pop_back();
 	}
 
 }
+
+*/
 
 
 list<string> Program::returnmessages(string filepath)
@@ -847,7 +1026,9 @@ list<string> Program::returnmessages(string filepath)
 	}
 	catch (exception& e)
 	{
-		cout << "their is an standerd exception " << e.what() << endl;
+		SetConsoleTextAttribute(h, 12);
+		cout << "there is a standerd exception " << e.what() << endl;
+		SetConsoleTextAttribute(h, 15);
 	}
 	return messages;
 }
@@ -869,35 +1050,140 @@ void Program::writetofile(list<string> mylist, string filepath)
 void Program::viewMessageFromaCertainContact()
 {
 	cout << "Please enter the user ID:-\n";
+	bool found = false;
 	int tempid;
 	cin >> tempid;
-	for (Message i : usernow->recivedmessages)
+	if (tempid == usernow->userid)
 	{
-		if (i.senderID == tempid)
+		SetConsoleTextAttribute(h, 14);
+		cout << "but... this is your ID :/\n";
+		SetConsoleTextAttribute(h, 15);
+
+	}
+	else
+	{
+		for (Message i : usernow->recivedmessages)
 		{
-			cout<< i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
+			if (i.senderID == tempid)
+			{
+				cout << i.content << "," << i.senderID << "," << i.recieverID << "," << i.date_string << endl;
+
+				found = true;
+			}
+		}
+		if (found == false)
+		{
+			SetConsoleTextAttribute(h, 14);
+			cout << "You haven't recieved messages from this user yet, or the user might not exist :C";
+			SetConsoleTextAttribute(h, 15);
+		}
+
+	}
+
+}
+void Program::viewContactsOfSpecificUser()
+{
+	cout << "Please enter the user ID:-\n";
+	int tempid;
+	cin >> tempid;
+
+	int start = 0;
+	int end = users.size() - 1;
+	bool found = false;
+	for (int i = 0; i < users.size(); i++) {
+		int middle = (end - start) / 2;
+		if (users[i].userid == tempid) {
+
+			found = true;
+			if (users[i].mycontact.empty())
+			{
+				SetConsoleTextAttribute(h, 14);
+				cout << "this user has no friends :c\n";
+			}
+			else
+			{
+				cout << "For anonymity, you can only see this user's friends' IDs\n";
+				cout << "__________________" << endl;
+				int count = 0;
+				for (auto contact : users[i].mycontact)
+				{
+					cout << "contact " << (count + 1) << ":" << endl;
+					//cout << usernow->mycontact[j].username << endl;  // removed the username because it defeats the point of Saraha's anonymity
+					cout << contact.userid << endl;
+					cout << "_______________" << endl;
+				}
+
+			}
+
+
+			break;
+		}
+		else if (users[middle].userid > useridnow) {
+			end = middle - 1;
+		}
+		else {
+			start = middle + 1;
 		}
 	}
-}
-void Program::del_line(const string file_name, int n)
-{
-	ifstream fin(file_name);
-	ofstream fout;
-	fout.open("temp.txt", ios::out);
 
-	char ch;
-	int line = 1;
-	while (fin.get(ch))
+	if (found == false)
 	{
-		if (ch == '\n')
-			line++;
+		SetConsoleTextAttribute(h, 14);
+		cout << "This user does not exist :C";
+		SetConsoleTextAttribute(h, 15);
 
-		if (line != n)      // content not to be deleted 
-			fout << ch;
 	}
-	fout.close();
-	fin.close();
-	char* c = strcpy(new char[file_name.length() + 2], file_name.c_str());
-	remove(c);
-	rename("temp.txt", c);
+
+
+
+}
+
+vector<Message> Program::fetch(string mypath)
+{
+	vector<Message> tempvector;
+
+	
+		ifstream messageFile;
+		ofstream messageOutputFile;
+		int positionInMessage;
+
+		string messageLine;
+		messageFile.open(mypath);
+
+		while (getline(messageFile, messageLine)) {
+			positionInMessage = messageLine.find(",");
+			//string mycut = messageLine.substr(0, positionInMessage);
+			string contenttemp = messageLine.substr(0, positionInMessage);
+			messageLine = messageLine.substr(positionInMessage + 1);
+			//first, 6437, 6421, May 15, 2022, 20:58 : 46
+			positionInMessage = messageLine.find(",");
+			int senderIDtemp = stoi(messageLine.substr(0, positionInMessage));
+			messageLine = messageLine.substr(positionInMessage + 1);
+
+			positionInMessage = messageLine.find(",");
+			int recieverIDtemp = stoi(messageLine.substr(0, positionInMessage));
+			messageLine = messageLine.substr(positionInMessage + 1);
+
+
+			string datestringTemp = messageLine;
+
+			//	mline = mline.substr(mpos + 1);
+			//	string timestringTemp = mline;
+
+			Message messageTemp = Message(contenttemp, senderIDtemp, recieverIDtemp);
+			string temp = datestringTemp;
+			strncpy(messageTemp.date_string, temp.c_str(), sizeof(messageTemp.date_string));
+			//	messageTemp.date_string[sizeof(messageTemp.date_string) - 1] = 0;
+			//	string temp2 = timestringTemp;
+			//	strncpy(messageTemp.time_string, temp2.c_str(), sizeof(messageTemp.time_string));
+			//	messageTemp.time_string[sizeof(messageTemp.time_string) - 1] = 0;
+				// sentmessagestemp.push_back(messageTemp);
+			//usernow->myfavouritmessages.push_back(messageTemp);
+			tempvector.push_back(messageTemp);
+		}
+		messageFile.close();
+		return tempvector;
+
+	
+	
 }
